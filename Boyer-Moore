@@ -19,7 +19,7 @@ class BM{
                 j--;
             if(j<0){
                 System.out.println("Pattern occurs at "+s);
-                s += (s+m < n)? m-badchar[txt[s+m]] : 1;    
+                s += (s+n < m)? n-badchar[txt[s+n]] : 1;    
             }
             else{
                 s += max(1, j - badchar[txt[s+j]]);

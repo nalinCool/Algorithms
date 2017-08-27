@@ -1,0 +1,65 @@
+import java.util.*;
+
+class Manacher{
+	public static void main(String[] args){
+		Scanner sc = new Scanner(System.in);
+		int t = sc.nextInt();
+		for(int i=0; i<t; i++){
+			String s = sc.next();
+			int n = s.length();
+			manacherSubstring(s,n);
+		}		
+	}
+
+	private static void manacherSubstring(String s, int n) {
+		if(n==0)
+			return;
+		n = 2*n;
+		int lps[] = new int[n];
+		int C=1,R=2,i=0,iMirror=0;
+		//C --> Center Position;
+		//R --> Center Right Position
+		//i --> Current Right Position
+		//iMirror --> Current Left Position
+		int diff=0; //Diffrence between center right position and current right position
+		int maxLps=1;
+		int maxLpsCenter=0;
+		lps[0]=0;
+		lps[1]=1;
+		
+		for(i=2; i<n; i++){
+			//getting current left position for current right position
+			iMirror = 2*C-i;
+			lps[i]=0;
+			diff = R-i;
+			
+			if(diff>0){
+				lps[i] = Math.min(lps[iMirror], diff);
+			}
+			
+			//Expanding
+			while((i+lps[i]<n && i-lps[i]>0) && (((i+lps[i]+1)%2==0) || (s.charAt((i+lps[i]+1)/2)==s.charAt((i-lps[i]-1)/2)))){
+				++lps[i];
+			}
+			
+			if(maxLps<lps[i]){
+				maxLps = lps[i];
+				maxLpsCenter = i;
+			}
+			
+			if(i+lps[i]>R){
+				C=i;
+				R = i+lps[i];
+			}		
+		}
+		
+		int start=-1;
+		int end=-1;
+		
+		start = (maxLpsCenter - maxLps)/2;
+		end = start + maxLps - 1;
+		for(int ii=start; ii<=end ; ii++){
+			System.out.print(s.charAt(ii));
+		}System.out.println();
+	}
+}

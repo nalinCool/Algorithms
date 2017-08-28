@@ -1,21 +1,54 @@
+import java.io.*;
 import java.util.*;
 
-class TSP{
-  	
-	public double solve(int bitmask, int pos){
-		if(dp[bitmask][pos]!=-1)
-			return dp[bitmask][pos];
-		if(bitmask==(1<<N)-1)
-			return dist[pos][0];
-		
-		double min = 2000000000.0;
-		for(int k=0; k<N; k++){
-			int res = bitmask & (1<<k);
-			if(res==0){
-				int newBitmask = bitmask|(1<<k);
-				double newDist = dist[pos][k]+solve(bitmask,k);
-				min = Math.min(min,newDist);
+class TravellingSalesmanProblem{
+	
+	static int total;
+	public static void main(String[] args){
+		Scanner sc = new Scanner(System.in);
+		int t = sc.nextInt();
+		for(int i=0; i<t; i++){
+		    int n = sc.nextInt();
+		    double a[][] = new double[n][n];
+		    for(int j=0; j<n; j++){
+		    	for(int k=0; k<n; k++){
+		    		a[j][k] = sc.nextDouble();
+		    	}
+		    }
+		    TSP ts = new TSP(a,n);
+		    System.out.println(ts.solve(0, 0));
+		}
+	}
+	
+	static class TSP{
+		double dp[][], dist[][];
+		int N;
+		TSP(double a[][], int n){
+			N=n;
+			dp = new double[(int)Math.pow(2, n)][n];
+			dist = a;
+			for(int i=0; i<(int)Math.pow(2, n); i++){
+				for(int j=0; j<n; j++){
+					dp[i][j] = -1;
+				}
 			}
 		}
-		return dp[bitmask][pos]=min;
+		public double solve(int bitmask, int pos){
+			if(dp[bitmask][pos]!=-1)
+				return dp[bitmask][pos];
+			if(bitmask==(1<<N)-1)
+				return dist[pos][0];
+			
+			double min = 2000000000.0;
+			for(int k=0; k<N; k++){
+				int res = bitmask & (1<<k);
+				if(res==0){
+					int newBitmask = bitmask|(1<<k);
+					double newDist = dist[pos][k]+solve(newBitmask,k);
+					min = Math.min(min,newDist);
+				}
+			}
+			return dp[bitmask][pos]=min;
+		}
+	}
 }

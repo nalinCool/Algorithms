@@ -1,0 +1,21 @@
+import java.util.*;
+
+class TSP{
+  	
+	public double solve(int bitmask, int pos){
+		if(dp[bitmask][pos]!=-1)
+			return dp[bitmask][pos];
+		if(bitmask==(1<<N)-1)
+			return dist[pos][0];
+		
+		double min = 2000000000.0;
+		for(int k=0; k<N; k++){
+			int res = bitmask & (1<<k);
+			if(res==0){
+				int newBitmask = bitmask|(1<<k);
+				double newDist = dist[pos][k]+solve(bitmask,k);
+				min = Math.min(min,newDist);
+			}
+		}
+		return dp[bitmask][pos]=min;
+}

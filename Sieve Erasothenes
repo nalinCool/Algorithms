@@ -1,0 +1,35 @@
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class SieveOfErasothenes {
+    
+    static HashMap<Integer, Integer> hm;
+	  public static void main (String[] args) {
+		 hm = new HashMap<>();
+		Scanner sc = new Scanner(System.in);
+		int t = sc.nextInt();
+		for(int i=0; i<t; i++){
+		    int n = sc.nextInt();
+		    prime(n);
+		}
+	}
+	
+	public static void prime(int n){
+	    
+	    for(int i=2; i<=n; i++){
+	        hm.put(i,1);
+	    }
+	    
+	    for(int i=2; i*i<=n; i++){
+	        if(hm.containsKey(i)){
+	            for(int j=2*i; j<=n; j+=i){
+	                if(hm.containsKey(j))
+	                    hm.remove(j);
+	            }
+	        }
+	    }
+	    
+	    System.out.println(hm.keySet());
+	}
+}

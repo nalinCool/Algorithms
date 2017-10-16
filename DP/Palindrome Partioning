@@ -29,8 +29,8 @@ class SUS{
             		else{
                 		dp[i] = Integer.MAX_VALUE;
                 		for(j = 0; j < i; j++){
-                    			if(dp[j+1][i] == true && 1 + C[j] < C[i])
-                        			C[i] = 1 + C[j];
+                    			if(dp[j+1][i] == true && 1 + dp[j] < dp[i])
+                        			dp[i] = 1 + dp[j];
                 		}
             		}
         	}
